@@ -108,5 +108,22 @@
         };
       };
     };
+
+    zsh = {
+      enable = true;
+    };
+
+    fish = {
+      enable = true;
+    };
+
+    fzf = {
+      enable = true;
+      tmux.enableShellIntegration = true;
+
+      # these options require that we also use programs.{fish,zsh}
+      enableFishIntegration = true;
+      enableZshIntegration = true;
+    };
   };
 }

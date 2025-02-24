@@ -357,3 +357,31 @@ editor: ''
 git_protocol: https
 version: '1'
 ```
+
+### programs.fzf
+
+To enable fzf correctly, we need to also manage the shells we're integrating
+with because Home Manager needs to manage the user's shell profile files.
+
+```bash
+ home-manager switch --flake .#vpayno
+warning: Git tree '/home/vpayno/.config/home-manager' is dirty
+Starting Home Manager activation
+Activating checkFilesChanged
+Activating checkLinkTargets
+Activating writeBoundary
+Creating new profile generation
+Activating installPackages
+nix profile remove /nix/store/77vl27iwnmrh9lws1g3fc905yqvpg73w-home-manager-path
+removing 'home-manager-path'
+Activating migrateGhAccounts
+Activating linkGeneration
+Cleaning up orphan links from /home/vpayno
+Creating home file links in /home/vpayno
+Activating onFilesChange
+Activating reloadSystemd
+warning: Git tree '/home/vpayno/.config/home-manager' is dirty
+
+$ ls -lh ~/.zshrc
+lrwxrwxrwx 1 vpayno vpayno 69 Feb 24 08:43 /home/vpayno/.zshrc -> /nix/store/9cc4l8lh00m2vbilrlwgx0ksvxha7cl5-home-manager-files/.zshrc
+```
