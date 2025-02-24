@@ -81,6 +81,32 @@
     # EDITOR = "emacs";
   };
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  programs = {
+    # Let Home Manager install and manage itself.
+    home-manager.enable = true;
+
+    gh = {
+      enable = true;
+      settings = {
+        version = "1";
+        aliases = {
+          "as" = "auth status";
+          "issues-bugs" = "issue list --label='bug'";
+          "issues-documentation" = "issue list --label='documentation'";
+          "issues-duplicate" = "issue list --label='duplicate'";
+          "issues-enhancement" = "issue list --label='enhancement'";
+          "issues-noob" = "issue list --label='good first issue'";
+          "issues-help-wanted" = "issue list --label='help wanted'";
+          "issues-invalid" = "issue list --label='invalid'";
+          "issues-question" = "issue list --label='question'";
+          "issues-wontfix" = "issue list --label='wontfix'";
+          "prs-all" = "pr list";
+          "prs-mine" = "pr list --author '@me'";
+          "gists-all" = "gist list";
+          "gists-private" = "gist list --secret";
+          "gists-public" = "gist list --public";
+        };
+      };
+    };
+  };
 }

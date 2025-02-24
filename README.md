@@ -267,3 +267,85 @@ $ ls -lh /nix/store/llmlr3mc7qyqqgvxm90znvxnzlddvmg6-hm_.hello
 $ cat ~/.hello  # oops, forgot the newline character
 Hello Home Manager user!
 ```
+
+## programs option
+
+We can also use `programs` to not only `enable` (install) a package, but
+configuring it as well.
+
+Don't use `pkgs` and `file` to manage a package while also using `programs`
+since there may be conflicts.
+
+### programs.gh
+
+Instead of installing `gh` (GitHub CLI) with `go install`, let's use Home
+Manager.
+
+```bash
+$ home-manager switch --flake .#vpayno
+warning: Git tree '/home/vpayno/.config/home-manager' is dirty
+Starting Home Manager activation
+Activating checkFilesChanged
+Activating checkLinkTargets
+Existing file '/home/vpayno/.config/gh/config.yml' is in the way of '/nix/store/slmra9sghvg23bplsjqn9v8mr16qvd42-home-manager-files/.config/gh/config.yml'
+Please do one of the following:
+- Move or remove the above files and try again.
+- In standalone mode, use 'home-manager switch -b backup' to back up
+  files automatically.
+- When used as a NixOS or nix-darwin module, set
+    'home-manager.backupFileExtension'
+  to, for example, 'backup' and rebuild.
+
+$ home-manager switch -b backup --flake .#vpayno
+warning: Git tree '/home/vpayno/.config/home-manager' is dirty
+Starting Home Manager activation
+Activating checkFilesChanged
+Activating checkLinkTargets
+Existing file '/home/vpayno/.config/gh/config.yml' is in the way of '/nix/store/slmra9sghvg23bplsjqn9v8mr16qvd42-home-manager-files/.config/gh/config.yml', will be moved to '/home/vpayno/.config/gh/config.yml.backup'
+Activating writeBoundary
+Creating new profile generation
+Activating installPackages
+nix profile remove /nix/store/09jx1df4i2s3fys86f99bww3g2a38q1k-home-manager-path
+removing 'home-manager-path'
+Activating migrateGhAccounts
+Activating linkGeneration
+Cleaning up orphan links from /home/vpayno
+Creating home file links in /home/vpayno
+Activating onFilesChange
+Activating reloadSystemd
+The user systemd session is degraded:
+  UNIT                 LOAD   ACTIVE SUB    DESCRIPTION
+● kite-updater.service loaded failed failed Kite Updater
+
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.
+
+1 loaded units listed.
+Attempting to reload services anyway...
+The service manager is degraded.
+Failed services: kite-updater.service
+Attempting to continue anyway...
+warning: Git tree '/home/vpayno/.config/home-manager' is dirty
+
+$ yq . ~/.config/gh/config.yml
+aliases:
+  as: auth status
+  gists-all: gist list
+  gists-private: gist list --secret
+  gists-public: gist list --public
+  issues-bugs: issue list --label='bug'
+  issues-documentation: issue list --label='documentation'
+  issues-duplicate: issue list --label='duplicate'
+  issues-enhancement: issue list --label='enhancement'
+  issues-help-wanted: issue list --label='help wanted'
+  issues-invalid: issue list --label='invalid'
+  issues-noob: issue list --label='good first issue'
+  issues-question: issue list --label='question'
+  issues-wontfix: issue list --label='wontfix'
+  prs-all: pr list
+  prs-mine: pr list --author '@me'
+editor: ''
+git_protocol: https
+version: '1'
+```
