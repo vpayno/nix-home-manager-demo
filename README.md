@@ -2,7 +2,7 @@
 
 Using this as Nix Home Manager demo/playground to help me learn how to use it.
 
-## Initialize home-manager config
+## Initialize home-manager configuration
 
 ```bash
 $ nix run home-manager -- init .
@@ -199,4 +199,71 @@ Check the home-manager generations:
 $ home-manager switch generations
 2025-02-22 23:24 : id 2 -> /nix/store/xkv2lk1ppp3bj1dqx61l1rckwb6s6sgm-home-manager-generation
 2025-02-22 22:57 : id 1 -> /nix/store/5hpkwpgykly4zj4lz6kksl7iif467izd-home-manager-generation
+```
+
+## Adding a package, file, and a script
+
+Adding the package `hello`, a file `~/.hello` and a script `my-script` using
+Home Manager.
+
+```bash
+$ home-manager switch --flake .#vpayno
+warning: Git tree '/home/vpayno/.config/home-manager' is dirty
+Starting Home Manager activation
+Activating checkFilesChanged
+Activating checkLinkTargets
+Activating writeBoundary
+Creating new profile generation
+Activating installPackages
+nix profile remove /nix/store/z30lalrc0dvr26xf5hr91z3h0hhs4qmq-home-manager-path
+removing 'home-manager-path'
+Activating linkGeneration
+Cleaning up orphan links from /home/vpayno
+Creating home file links in /home/vpayno
+Activating onFilesChange
+Activating reloadSystemd
+The user systemd session is degraded:
+  UNIT                 LOAD   ACTIVE SUB    DESCRIPTION
+● kite-updater.service loaded failed failed Kite Updater
+
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.
+
+1 loaded units listed.
+Attempting to reload services anyway...
+The service manager is degraded.
+Failed services: kite-updater.service
+Attempting to continue anyway...
+
+$ which hello
+/home/vpayno/.nix-profile/bin/hello
+
+$ hello
+Hello, world!
+
+$ which my-hello
+/home/vpayno/.nix-profile/bin/my-hello
+
+$ my-hello
+ ________________
+< Hello, vpayno! >
+ ----------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+
+$ ls -lh ~/.hello
+lrwxrwxrwx 1 vpayno vpayno 69 Feb 23 23:00 /home/vpayno/.hello -> /nix/store/7rypkqjfg0622dx9lyhpr4d3wk0hd6df-home-manager-files/.hello
+
+$ ls -lh /nix/store/7rypkqjfg0622dx9lyhpr4d3wk0hd6df-home-manager-files/.hello
+lrwxrwxrwx 1 root root 53 Dec 31  1969 /nix/store/7rypkqjfg0622dx9lyhpr4d3wk0hd6df-home-manager-files/.hello -> /nix/store/llmlr3mc7qyqqgvxm90znvxnzlddvmg6-hm_.hello
+
+$ ls -lh /nix/store/llmlr3mc7qyqqgvxm90znvxnzlddvmg6-hm_.hello
+-r--r--r-- 1 root root 24 Dec 31  1969 /nix/store/llmlr3mc7qyqqgvxm90znvxnzlddvmg6-hm_.my-hello
+
+$ cat ~/.hello  # oops, forgot the newline character
+Hello Home Manager user!
 ```
