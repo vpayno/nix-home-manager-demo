@@ -201,6 +201,14 @@ $ home-manager switch generations
 2025-02-22 22:57 : id 1 -> /nix/store/5hpkwpgykly4zj4lz6kksl7iif467izd-home-manager-generation
 ```
 
+## File Conflicts
+
+When Home Manager encounters a file collision with existing files you are now
+managing with Home Manager, you'll need to either rename or delete the targets
+manually or use the `-b extension` argument to have Home Manager rename them for
+you. Using `-b backup` makes it easy to find all the files renamed by Home
+Manager.
+
 ## Adding a package, file, and a script
 
 Adding the package `hello`, a file `~/.hello` and a script `my-script` using
